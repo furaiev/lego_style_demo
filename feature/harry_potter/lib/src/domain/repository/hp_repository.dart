@@ -7,7 +7,7 @@ class HPRepository {
   Character getCharacter(String name) {
     return Character(
       name: name,
-      biography: '$name is a character in Harry Potter',
+      biography: '$name is a character in Harry Potter!',
     );
   }
 
