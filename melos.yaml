@@ -40,3 +40,7 @@ scripts:
     run: |
       melos exec --fail-fast --diff=origin/main...HEAD --include-dependents -- flutter pub get --suppress-analytics
     description: Run `flutter pub get` in all changed packages with dependents.
+  pub_get_changes_no_dependents:
+    run: |
+      melos exec --fail-fast --diff=origin/main...HEAD -- flutter pub get --suppress-analytics
+    description: Run `flutter pub get` in all changed packages.
