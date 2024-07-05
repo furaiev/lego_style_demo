@@ -24,14 +24,17 @@ mkdir -p coverage
 # Generate baseline coverage report from the main branch
 git fetch origin
 git checkout origin/main
-flutter test --coverage
-
-# Move the baseline coverage report to a temporary file
-if [ -f coverage/lcov.info ]; then
-  mv coverage/lcov.info coverage/lcov.baseline.info
+if [ -d "test" ]; then
+  flutter test --coverage
+  if [ -f coverage/lcov.info ]; then
+    mv coverage/lcov.info coverage/lcov.baseline.info
+  else
+    echo "Baseline coverage report not found."
+    touch coverage/lcov.baseline.info
+  fi
 else
-  echo "Baseline coverage report not found."
-  exit 1
+  echo "Test directory not found, creating empty baseline coverage report."
+  touch coverage/lcov.baseline.info
 fi
 
 # Switch back to the current branch
@@ -53,15 +56,18 @@ echo "" > coverage/lcov.info
 for package in $changed_packages; do
   echo "Running tests for $package"
   cd feature/$package
-  flutter test --coverage
-  cd ../..
-
-  # Merge package coverage data
-  if [ -f feature/$package/coverage/lcov.info ]; then
-    echo "Merging coverage for $package"
-    lcov --add-tracefile feature/$package/coverage/lcov.info --output-file coverage/lcov.temp.info
-    mv coverage/lcov.temp.info coverage/lcov.info
+  if [ -d "test" ]; then
+    flutter test --coverage
+    # Merge package coverage data
+    if [ -f coverage/lcov.info ]; then
+      echo "Merging coverage for $package"
+      lcov --add-tracefile coverage/lcov.info --output-file coverage/lcov.temp.info
+      mv coverage/lcov.temp.info coverage/lcov.info
+    fi
+  else
+    echo "Test directory not found for package $package, skipping coverage."
   fi
+  cd ../..
 done
 
 # Merge the baseline coverage with the new coverage data
@@ -69,7 +75,6 @@ if [ -s coverage/lcov.info ]; then
   echo "Merging baseline coverage with new coverage data"
   lcov --add-tracefile coverage/lcov.baseline.info --add-tracefile coverage/lcov.info --output-file coverage/lcov.merged.info
   mv coverage/lcov.merged.info coverage/lcov.info
-  rm coverage/lcov.baseline.info
 else
   echo "No new coverage data collected, using baseline coverage only"
   mv coverage/lcov.baseline.info coverage/lcov.info
