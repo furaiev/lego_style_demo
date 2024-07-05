@@ -27,7 +27,12 @@ git checkout origin/main
 flutter test --coverage
 
 # Move the baseline coverage report to a temporary file
-mv coverage/lcov.info coverage/lcov.baseline.info
+if [ -f coverage/lcov.info ]; then
+  mv coverage/lcov.info coverage/lcov.baseline.info
+else
+  echo "Baseline coverage report not found."
+  exit 1
+fi
 
 # Switch back to the current branch
 git checkout -
@@ -65,6 +70,9 @@ if [ -s coverage/lcov.info ]; then
   lcov --add-tracefile coverage/lcov.baseline.info --add-tracefile coverage/lcov.info --output-file coverage/lcov.merged.info
   mv coverage/lcov.merged.info coverage/lcov.info
   rm coverage/lcov.baseline.info
+else
+  echo "No new coverage data collected, using baseline coverage only"
+  mv coverage/lcov.baseline.info coverage/lcov.info
 fi
 
 # Generate HTML report
