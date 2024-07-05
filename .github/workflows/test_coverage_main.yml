@@ -13,10 +13,11 @@ jobs:
       - name: 📚 Git Checkout
         uses: actions/checkout@v3
       - name: Download coverage artifact from PR
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: code-coverage-report
           path: coverage_report
+          run-id: ${{ github.event.workflow_run.id }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
