@@ -6,8 +6,31 @@ if ! command -v melos &> /dev/null; then
   exit 1
 fi
 
+# Ensure lcov is installed
+if ! command -v lcov &> /dev/null; then
+  echo "lcov could not be found. Please install lcov."
+  exit 1
+fi
+
+# Ensure genhtml is installed
+if ! command -v genhtml &> /dev/null; then
+  echo "genhtml could not be found. Please install lcov (genhtml is part of lcov)."
+  exit 1
+fi
+
 # Create a directory for coverage reports
 mkdir -p coverage
+
+# Generate baseline coverage report from the main branch
+git fetch origin
+git checkout origin/main
+flutter test --coverage
+
+# Move the baseline coverage report to a temporary file
+mv coverage/lcov.info coverage/lcov.baseline.info
+
+# Switch back to the current branch
+git checkout -
 
 # Get the list of changed packages
 changed_packages=$(git diff --name-only origin/main | grep -E '^feature/' | cut -d'/' -f2 | sort | uniq)
@@ -21,6 +44,7 @@ fi
 echo "Creating initial lcov.info for merging"
 echo "" > coverage/lcov.info
 
+# Run tests and collect coverage for each changed package
 for package in $changed_packages; do
   echo "Running tests for $package"
   cd feature/$package
@@ -35,10 +59,17 @@ for package in $changed_packages; do
   fi
 done
 
-# Convert coverage data to lcov format (if necessary)
+# Merge the baseline coverage with the new coverage data
 if [ -s coverage/lcov.info ]; then
-  echo "Converting and generating HTML report"
-  format_coverage --lcov --in=coverage/lcov.info --out=coverage/lcov.info --packages=.packages --report-on=lib
+  echo "Merging baseline coverage with new coverage data"
+  lcov --add-tracefile coverage/lcov.baseline.info --add-tracefile coverage/lcov.info --output-file coverage/lcov.merged.info
+  mv coverage/lcov.merged.info coverage/lcov.info
+  rm coverage/lcov.baseline.info
+fi
+
+# Generate HTML report
+if [ -s coverage/lcov.info ]; then
+  echo "Generating HTML report"
   genhtml -o coverage coverage/lcov.info
 else
   echo "No coverage data collected."
