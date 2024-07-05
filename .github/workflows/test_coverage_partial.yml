@@ -25,6 +25,9 @@ jobs:
           dart pub global activate melos
         shell: bash
 
+      - name: 🐣 Preparing coverage tools
+        run: dart pub global activate coverage
+
       - name: Running pub get
         uses: nick-fields/retry@v2
         with:
