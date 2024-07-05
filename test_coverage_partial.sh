@@ -10,7 +10,7 @@ fi
 mkdir -p coverage
 
 # Get the list of changed packages
-changed_packages=$(git diff --name-only origin/main | grep -E '^packages/' | cut -d'/' -f2 | sort | uniq)
+changed_packages=$(git diff --name-only origin/main | grep -E '^feature/' | cut -d'/' -f2 | sort | uniq)
 
 if [ -z "$changed_packages" ]; then
   echo "No packages changed."
