@@ -3,6 +3,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:harry_potter/src/domain/model/character.dart';
 import 'package:harry_potter/src/domain/repository/hp_repository.dart';
+// ignore: unused_import
+import 'package:harry_potter/src/flow/harry_potter_flow.dart';
 
 void main() {
   group('HPRepository', () {
