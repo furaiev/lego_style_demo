@@ -1,0 +1,25 @@
+name: Update Coverage for Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v3
+      - name: Download coverage artifact from PR
+        uses: actions/download-artifact@v2
+        with:
+          name: code-coverage-report
+          path: coverage_report
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          verbose: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
