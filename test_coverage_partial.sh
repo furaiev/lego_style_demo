@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Ensure melos is installed
+if ! command -v melos &> /dev/null; then
+  echo "Melos could not be found. Please install Melos first."
+  exit 1
+fi
+
 # Create a directory for coverage reports
 mkdir -p coverage
 
@@ -11,6 +17,10 @@ if [ -z "$changed_packages" ]; then
   exit 0
 fi
 
+# Initialize a temporary lcov.info file for merging
+echo "Creating initial lcov.info for merging"
+echo "" > coverage/lcov.info
+
 for package in $changed_packages; do
   echo "Running tests for $package"
   cd packages/$package
@@ -19,13 +29,22 @@ for package in $changed_packages; do
 
   # Merge package coverage data
   if [ -f packages/$package/coverage/lcov.info ]; then
-    lcov --add-tracefile packages/$package/coverage/lcov.info --output-file coverage/lcov.info
+    echo "Merging coverage for $package"
+    lcov --add-tracefile packages/$package/coverage/lcov.info --output-file coverage/lcov.temp.info
+    mv coverage/lcov.temp.info coverage/lcov.info
   fi
 done
 
 # Convert coverage data to lcov format (if necessary)
-if [ -f coverage/lcov.info ]; then
+if [ -s coverage/lcov.info ]; then
+  echo "Converting and generating HTML report"
   format_coverage --lcov --in=coverage/lcov.info --out=coverage/lcov.info --packages=.packages --report-on=lib
-  # Generate HTML report
   genhtml -o coverage coverage/lcov.info
+else
+  echo "No coverage data collected."
 fi
+
+# Clean up temporary files
+rm -f coverage/lcov.temp.info
+
+echo "Coverage report generated in the coverage directory."

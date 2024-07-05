@@ -19,8 +19,19 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: '📦 Install Dependencies'
+        run: |
+          flutter config --no-analytics
+          dart pub global activate melos
+        shell: bash
+
+      - name: Running pub get
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 60
+          max_attempts: 2
+          retry_on: error
+          command: ${{ inputs.command || 'melos pub_get_changes' }}
 
       - name: Run tests and collect coverage for changed packages
         run: ./test_coverage_partial.sh
