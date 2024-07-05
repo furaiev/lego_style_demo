@@ -23,14 +23,14 @@ echo "" > coverage/lcov.info
 
 for package in $changed_packages; do
   echo "Running tests for $package"
-  cd packages/$package
+  cd feature/$package
   flutter test --coverage
   cd ../..
 
   # Merge package coverage data
-  if [ -f packages/$package/coverage/lcov.info ]; then
+  if [ -f feature/$package/coverage/lcov.info ]; then
     echo "Merging coverage for $package"
-    lcov --add-tracefile packages/$package/coverage/lcov.info --output-file coverage/lcov.temp.info
+    lcov --add-tracefile feature/$package/coverage/lcov.info --output-file coverage/lcov.temp.info
     mv coverage/lcov.temp.info coverage/lcov.info
   fi
 done
