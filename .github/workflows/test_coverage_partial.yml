@@ -7,41 +7,66 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v3
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
-
-      - name: Set up Flutter
+      - name: '🐦 Setup Flutter'
         uses: subosito/flutter-action@v2
         with:
           flutter-version: 3.22.2
-          channel: 'stable'
+          channel: "stable"
           cache: true
-
       - name: '📦 Install Dependencies'
         run: |
           flutter config --no-analytics
           dart pub global activate melos
         shell: bash
-
-      - name: 🐣 Preparing coverage tools
-        run: dart pub global activate coverage
-
-      - name: Setup LCOV
-        uses: hrishikesh-kadam/setup-lcov@v1
-
       - name: Running pub get
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 60
           max_attempts: 2
           retry_on: error
-          command: ${{ inputs.command || 'melos pub_get_changes' }}
-
-      - name: Run tests and collect coverage for changed packages
-        run: ./test_coverage_partial.sh
-
+          command: 'melos pub_get_changes_no_dependents'
+      - name: 📦 Install very good cli
+        run: dart pub global activate very_good_cli
+      - name: 🐣 Preparing coverage tools
+        run: dart pub global activate coverage
+      - name: 🧪 Collecting coverage for changed packages
+        run: |
+          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --dir-exists="test" -- \
+            "if [ ! -f dart_test.yaml ]; then
+              if grep -q 'flutter:' pubspec.yaml; then
+                very_good test --coverage --exclude-tags=golden
+              else
+                dart pub global run coverage:test_with_coverage
+              fi
+            fi"
+      - name: 📝 Preparing coverage report
+        run: |
+          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+            "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
+      - name: 🤷 Check report existence
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: 'coverage_report/lcov.info'
+      - name: 🧹 Removing generated code from the report
+        if: steps.check_files.outputs.files_exists == 'true'
+        run: |
+          dart pub global activate remove_from_coverage
+          dart pub global run remove_from_coverage:remove_from_coverage -f coverage_report/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
+      - name: Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+      - name: 📊 Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@v3
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          coverage-files: coverage_report/lcov.info
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
