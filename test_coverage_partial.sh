@@ -70,14 +70,20 @@ for package in $changed_packages; do
   cd ../..
 done
 
-# Merge the baseline coverage with the new coverage data
-if [ -s coverage/lcov.info ]; then
-  echo "Merging baseline coverage with new coverage data"
-  lcov --add-tracefile coverage/lcov.baseline.info --add-tracefile coverage/lcov.info --output-file coverage/lcov.merged.info
-  mv coverage/lcov.merged.info coverage/lcov.info
+# Check if the baseline coverage file has valid records
+if ! grep -q "end_of_record" coverage/lcov.baseline.info; then
+  echo "Baseline coverage file has no valid records, using only new coverage data"
+  mv coverage/lcov.info coverage/lcov.baseline.info
 else
-  echo "No new coverage data collected, using baseline coverage only"
-  mv coverage/lcov.baseline.info coverage/lcov.info
+  # Merge the baseline coverage with the new coverage data
+  if [ -s coverage/lcov.info ]; then
+    echo "Merging baseline coverage with new coverage data"
+    lcov --add-tracefile coverage/lcov.baseline.info --add-tracefile coverage/lcov.info --output-file coverage/lcov.merged.info
+    mv coverage/lcov.merged.info coverage/lcov.info
+  else
+    echo "No new coverage data collected, using baseline coverage only"
+    mv coverage/lcov.baseline.info coverage/lcov.info
+  fi
 fi
 
 # Generate HTML report
