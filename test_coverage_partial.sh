@@ -24,8 +24,7 @@ mkdir -p coverage
 # Generate baseline coverage report from the main branch
 git fetch origin
 git checkout origin/main
-if [ -d "test" ]; then
-  flutter test --coverage
+if flutter test --coverage; then
   if [ -f coverage/lcov.info ]; then
     mv coverage/lcov.info coverage/lcov.baseline.info
   else
@@ -33,7 +32,7 @@ if [ -d "test" ]; then
     touch coverage/lcov.baseline.info
   fi
 else
-  echo "Test directory not found, creating empty baseline coverage report."
+  echo "Test execution failed on the main branch."
   touch coverage/lcov.baseline.info
 fi
 
@@ -56,16 +55,16 @@ echo "" > coverage/lcov.info
 for package in $changed_packages; do
   echo "Running tests for $package"
   cd feature/$package
-  if [ -d "test" ]; then
-    flutter test --coverage
-    # Merge package coverage data
+  if flutter test --coverage; then
     if [ -f coverage/lcov.info ]; then
       echo "Merging coverage for $package"
       lcov --add-tracefile coverage/lcov.info --output-file coverage/lcov.temp.info
       mv coverage/lcov.temp.info coverage/lcov.info
+    else
+      echo "No coverage data found for $package"
     fi
   else
-    echo "Test directory not found for package $package, skipping coverage."
+    echo "Test execution failed for package $package"
   fi
   cd ../..
 done
