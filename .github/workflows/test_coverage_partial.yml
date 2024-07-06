@@ -79,8 +79,3 @@ jobs:
         with:
           name: code-coverage-report
           path: coverage_report/lcov.info
-      - name: Store run-id and PR number for main branch workflow
-        if: success()
-        run: |
-          echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
-          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
