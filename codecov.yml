@@ -2,7 +2,6 @@ coverage:
   precision: 2
   round: down
   range: "70...100"
-  carryforward: true
 parsers:
   gcov:
     branch_detection:
@@ -13,3 +12,7 @@ parsers:
 comment:
   layout: "reach,diff,flags,files,footer"
   require_changes: true
+  require_base: no
+flags:
+  features:
+    carryforward: true

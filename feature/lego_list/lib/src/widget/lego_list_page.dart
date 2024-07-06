@@ -42,6 +42,7 @@ class _Grid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final legoSets = context.watch<LegoListCubit>().state.legoSets;
+
     return GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
