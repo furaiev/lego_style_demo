@@ -85,18 +85,3 @@ jobs:
           verbose: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: 📝 Save coverage artifact
-        if: steps.check_files.outputs.files_exists == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: code-coverage-report
-          path: coverage_report/lcov.info
-
-      - name: Save run-id artifact
-        run: |
-          echo $GITHUB_RUN_ID > run_id.txt
-        uses: actions/upload-artifact@v4
-        with:
-          name: run-id
-          path: run_id.txt
