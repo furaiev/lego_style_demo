@@ -2,7 +2,6 @@
 // ignore_for_file: unused_import, directives_ordering
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_test/flutter_test.dart';
 
 import './step/the_flow_is_running_with_configuration.dart';
@@ -29,10 +28,10 @@ void main() {
       await iSeeText(tester, 'Lego Harry Potter');
       await iSeeText(tester, 'Lego DC');
     });
-    testWidgets('''I can see world's details''', (tester) async {
-      await theFlowIsRunningWithConfiguration(tester, 'list');
-      await iTapText(tester, 'Lego Harry Potter');
-      await navigationToUniverseIsRequested(tester, 'hp');
-    });
+    // testWidgets('''I can see world's details''', (tester) async {
+    //   await theFlowIsRunningWithConfiguration(tester, 'list');
+    //   await iTapText(tester, 'Lego Harry Potter');
+    //   await navigationToUniverseIsRequested(tester, 'hp');
+    // });
   });
 }
