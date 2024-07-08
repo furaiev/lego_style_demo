@@ -105,5 +105,3 @@ jobs:
         with:
           flag-name: features
           file: coverage_report/lcov.info
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
