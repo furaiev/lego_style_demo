@@ -1,6 +1,6 @@
 name: Test Coverage Partial
 
-on: [pull_request]
+on: [push]
 
 jobs:
   test:
