@@ -84,5 +84,6 @@ jobs:
         with:
           verbose: true
           flags: features
+          config: /home/runner/work/lego_style_demo/lego_style_demo/codecov.yml
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
