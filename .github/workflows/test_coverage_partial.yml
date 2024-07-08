@@ -1,6 +1,6 @@
 name: Test Coverage Partial
 
-on: [pull_request, push]
+on: [push]
 
 jobs:
   test:
@@ -79,12 +79,20 @@ jobs:
           artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Print Contents of Coverage Folder
+        run: |
+          if [ -d coverage_report ]; then
+            ls -l coverage_report
+          else
+            echo "Directory $MELOS_ROOT_PATH/coverage_report does not exist"
+          fi
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           verbose: true
           flags: features
           fail_ci_if_error: true
-          directory: ./coverage_report/
+          directory: coverage_report
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
