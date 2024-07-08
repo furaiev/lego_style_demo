@@ -46,8 +46,10 @@ jobs:
             "if [ ! -f dart_test.yaml ]; then
               if grep -q 'flutter:' pubspec.yaml; then
                 very_good test --coverage --exclude-tags=golden
+                mkdir -p ../coverage && cp coverage/lcov.info ../coverage/$(basename $(pwd))_lcov.info
               else
                 dart pub global run coverage:test_with_coverage
+                mkdir -p ../coverage && cp coverage/lcov.info ../coverage/$(basename $(pwd))_lcov.info
               fi
             fi"
 
@@ -85,6 +87,6 @@ jobs:
           verbose: true
           flags: features
           fail_ci_if_error: true
-          directory: ./coverage_report/
+          directory: coverage
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
