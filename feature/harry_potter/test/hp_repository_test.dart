@@ -23,13 +23,13 @@ void main() {
       expect(characters[4].name, 'Lord Voldemort');
     });
 
-    // test('getCharacter returns correct character information', () {
-    //   const characterName = 'Harry Potter';
-    //   final character = repository.getCharacter(characterName);
-    //
-    //   expect(character, isA<Character>());
-    //   expect(character.name, characterName);
-    //   expect(character.biography, '$characterName is a character in Harry Potter!');
-    // });
+    test('getCharacter returns correct character information', () {
+      const characterName = 'Harry Potter';
+      final character = repository.getCharacter(characterName);
+
+      expect(character, isA<Character>());
+      expect(character.name, characterName);
+      expect(character.biography, '$characterName is a character in Harry Potter!');
+    });
   });
 }
