@@ -81,8 +81,8 @@ jobs:
 
       - name: Print Contents of Coverage Folder
         run: |
-          if [ -d $MELOS_ROOT_PATH/coverage_report ]; then
-            ls -l $MELOS_ROOT_PATH/coverage_report
+          if [ -d coverage_report ]; then
+            ls -l coverage_report
           else
             echo "Directory $MELOS_ROOT_PATH/coverage_report does not exist"
           fi
@@ -93,6 +93,6 @@ jobs:
           verbose: true
           flags: features
           fail_ci_if_error: true
-          directory: $MELOS_ROOT_PATH/coverage_report
+          directory: coverage_report
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
