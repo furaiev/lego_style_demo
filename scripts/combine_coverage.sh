@@ -9,6 +9,9 @@ if [ -d "coverage" ]; then
   if [ ! -d $reportDirectory ]; then
     mkdir $reportDirectory
   fi
+  echo "Combining coverage files into $reportDirectory/lcov.info"
   sed "s/^SF:lib/SF:$escapedPath\/lib/g" coverage/lcov.info >> "$reportDirectory/lcov.info"
   rm -rf "coverage"
+else
+  echo "Coverage directory does not exist"
 fi

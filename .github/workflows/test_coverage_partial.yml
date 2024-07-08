@@ -1,6 +1,6 @@
 name: Test Coverage Partial
 
-on: [pull_request, push]
+on: [push]
 
 jobs:
   test:
@@ -81,7 +81,11 @@ jobs:
 
       - name: Print Contents of Coverage Folder
         run: |
-          ls -l $MELOS_ROOT_PATH/coverage_report
+          if [ -d $MELOS_ROOT_PATH/coverage_report ]; then
+            ls -l $MELOS_ROOT_PATH/coverage_report
+          else
+            echo "Directory $MELOS_ROOT_PATH/coverage_report does not exist"
+          fi
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
