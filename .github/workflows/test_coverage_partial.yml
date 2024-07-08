@@ -80,6 +80,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print Contents of Coverage Folder
+        if: steps.check_files.outputs.files_exists == 'true'
         run: |
           if [ -d coverage_report ]; then
             ls -l coverage_report
@@ -88,11 +89,21 @@ jobs:
           fi
 
       - name: Upload coverage to Codecov
+        if: steps.check_files.outputs.files_exists == 'true'
         uses: codecov/codecov-action@v4
         with:
           verbose: true
           flags: features
           fail_ci_if_error: true
           directory: coverage_report
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload coverage to Coveralls
+        if: steps.check_files.outputs.files_exists == 'true'
+        uses: coverallsapp/github-action@v2
+        with:
+          flag-name: features
+          file: coverage_report/lcov.info
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
