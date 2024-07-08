@@ -46,10 +46,8 @@ jobs:
             "if [ ! -f dart_test.yaml ]; then
               if grep -q 'flutter:' pubspec.yaml; then
                 very_good test --coverage --exclude-tags=golden
-                mkdir -p $MELOS_ROOT_PATH/coverage && cp coverage/lcov.info $MELOS_ROOT_PATH/coverage/$(basename $(pwd))_lcov.info
               else
                 dart pub global run coverage:test_with_coverage
-                mkdir -p $MELOS_ROOT_PATH/coverage && cp coverage/lcov.info $MELOS_ROOT_PATH/coverage/$(basename $(pwd))_lcov.info
               fi
             fi"
 
@@ -81,12 +79,16 @@ jobs:
           artifact-name: code-coverage-report
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Print Contents of Coverage Folder
+        run: |
+          ls -l $MELOS_ROOT_PATH/coverage_report
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           verbose: true
           flags: features
           fail_ci_if_error: true
-          directory: coverage
+          directory: $MELOS_ROOT_PATH/coverage_report
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
