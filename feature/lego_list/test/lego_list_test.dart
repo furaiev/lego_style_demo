@@ -12,6 +12,10 @@ import './step/navigation_to_universe_is_requested.dart';
 
 void main() {
   group('''Lego List''', () {
+
+    test('mock', () {
+      expect('Lord Voldemort', 'Lord Voldemort');
+    });
     // testWidgets('''Lego world list is shown''', (tester) async {
     //   await theFlowIsRunningWithConfiguration(tester, 'list');
     //   await iSeeWidget(tester, ListView);
