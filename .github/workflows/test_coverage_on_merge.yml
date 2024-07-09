@@ -61,6 +61,10 @@ jobs:
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
               
+              echo Debugging
+              echo MELOS_PACKAGE_NAME  # Debugging output
+              echo $MELOS_PACKAGE_NAME  # Debugging output
+              echo "MELOS_PACKAGE_NAME: MELOS_PACKAGE_NAME"  # Debugging output
               echo "MELOS_PACKAGE_NAME: $MELOS_PACKAGE_NAME"  # Debugging output
           
               cd $GITHUB_WORKSPACE
