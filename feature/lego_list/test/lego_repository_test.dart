@@ -7,7 +7,7 @@ import 'package:lego_list/src/domain/repository/mock_repository.dart';
 
 void main() {
   group('HPRepository', () {
-    // final repository = HPRepository();
+    // final repository =  HPRepository();
 
     test('mock', () {
       expect('Lord Voldemort', 'Lord Voldemort');
