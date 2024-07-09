@@ -53,7 +53,7 @@ jobs:
 
       - name: 📝 Preparing coverage report
         run: |
-          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+          melos exec --diff=origin/$PREV_COMMIT...HEAD -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
       - name: 🤷 Check report existence
