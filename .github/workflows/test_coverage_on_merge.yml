@@ -29,14 +29,6 @@ jobs:
           dart pub global activate melos
         shell: bash
 
-      - name: Running pub get
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 60
-          max_attempts: 2
-          retry_on: error
-          command: 'melos pub_get_changes_no_dependents'
-
       - name: 📦 Install very good cli
         run: dart pub global activate very_good_cli
 
@@ -51,6 +43,7 @@ jobs:
         run: |
           melos exec --diff=$PREV_COMMIT...HEAD -c 1 --fail-fast --dir-exists="test" -- \
             "if [ ! -f dart_test.yaml ]; then
+              flutter pub get
               if grep -q 'flutter:' pubspec.yaml; then
                 very_good test --coverage --exclude-tags=golden
               else
