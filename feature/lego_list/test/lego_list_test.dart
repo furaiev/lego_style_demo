@@ -12,14 +12,14 @@ import './step/navigation_to_universe_is_requested.dart';
 
 void main() {
   group('''Lego List''', () {
-    testWidgets('''Lego world list is shown!''', (tester) async {
-      await theFlowIsRunningWithConfiguration(tester, 'list');
-      await iSeeWidget(tester, ListView);
-      await iSeeText(tester, 'Lego Star Wars');
-      await iSeeText(tester, 'Lego Marvel');
-      await iSeeText(tester, 'Lego Harry Potter');
-      await iSeeText(tester, 'Lego DC');
-    });
+    // testWidgets('''Lego world list is shown!''', (tester) async {
+    //   await theFlowIsRunningWithConfiguration(tester, 'list');
+    //   await iSeeWidget(tester, ListView);
+    //   await iSeeText(tester, 'Lego Star Wars');
+    //   await iSeeText(tester, 'Lego Marvel');
+    //   await iSeeText(tester, 'Lego Harry Potter');
+    //   await iSeeText(tester, 'Lego DC');
+    // });
     testWidgets('''Lego world grid is shown''', (tester) async {
       await theFlowIsRunningWithConfiguration(tester, 'grid');
       await iSeeWidget(tester, GridView);

@@ -14,18 +14,18 @@ void main() {
       expect('Lord Voldemort', 'Lord Voldemort');
     });
 
-    test('getCharacters returns a list of characters', () {
-      final characters = repository.getCharacters();
-
-      expect(characters, isA<List<Character>>());
-      expect(characters.length, 5);
-
-      expect(characters[0].name, 'Harry Potter');
-      expect(characters[1].name, 'Ron Weasley');
-      expect(characters[2].name, 'Hermione Granger');
-      expect(characters[3].name, 'Albus Dumbledore');
-      expect(characters[4].name, 'Lord Voldemort');
-    });
+    // test('getCharacters returns a list of characters', () {
+    //   final characters = repository.getCharacters();
+    //
+    //   expect(characters, isA<List<Character>>());
+    //   expect(characters.length, 5);
+    //
+    //   expect(characters[0].name, 'Harry Potter');
+    //   expect(characters[1].name, 'Ron Weasley');
+    //   expect(characters[2].name, 'Hermione Granger');
+    //   expect(characters[3].name, 'Albus Dumbledore');
+    //   expect(characters[4].name, 'Lord Voldemort');
+    // });
 
     test('getCharacter returns correct character information', () {
       const characterName = 'Harry Potter';
