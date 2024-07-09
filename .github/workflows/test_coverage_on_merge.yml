@@ -73,7 +73,7 @@ jobs:
               ls -l coverage/
           
               cd $GITHUB_WORKSPACE
-              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -f coverage/lcov_${{ MELOS_PACKAGE_NAME }}.info -F MELOS_PACKAGE_NAME --disable-search
+              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -f coverage/lcov_${MELOS_PACKAGE_NAME}.info -F MELOS_PACKAGE_NAME --disable-search
             fi"
 
 #      - name: 📝 Preparing coverage report
