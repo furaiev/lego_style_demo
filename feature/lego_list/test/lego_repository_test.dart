@@ -1,8 +1,7 @@
 // hp_repository_test.dart
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:harry_potter/src/domain/model/character.dart';
-import 'package:harry_potter/src/domain/repository/hp_repository.dart';
+import 'package:lego_list/src/domain/repository/mock_repository.dart';
 // ignore: unused_import
 // import 'package:harry_potter/src/flow/harry_potter_flow.dart';
 
