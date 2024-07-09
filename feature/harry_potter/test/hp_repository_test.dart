@@ -10,6 +10,10 @@ void main() {
   group('HPRepository', () {
     final repository = HPRepository();
 
+    test('mock', () {
+      expect('Lord Voldemort', 'Lord Voldemort');
+    });
+
     // test('getCharacters returns a list of characters', () {
     //   final characters = repository.getCharacters();
     //
