@@ -62,9 +62,9 @@ jobs:
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
           
               echo 'Renaming coverage file...'
-              mv coverage/lcov.info coverage/lcov_${MELOS_PACKAGE_NAME}.info
+              mv coverage/lcov.info coverage/lcov_$MELOS_PACKAGE_NAME.info
               if [ $? -eq 0 ]; then
-                echo 'Coverage file renamed to coverage/lcov_${MELOS_PACKAGE_NAME}.info'
+                echo 'Coverage file renamed to coverage/lcov_$MELOS_PACKAGE_NAME.info'
               else
                 echo 'Failed to rename coverage file'
               fi
