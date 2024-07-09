@@ -29,10 +29,10 @@ void main() {
       await iSeeText(tester, 'Lego DC');
     });
 
-    // testWidgets('''I can see world's details''', (tester) async {
-    //   await theFlowIsRunningWithConfiguration(tester, 'list');
-    //   await iTapText(tester, 'Lego Harry Potter');
-    //   await navigationToUniverseIsRequested(tester, 'hp');
-    // });
+    testWidgets('''I can see world's details''', (tester) async {
+      await theFlowIsRunningWithConfiguration(tester, 'list');
+      await iTapText(tester, 'Lego Harry Potter');
+      await navigationToUniverseIsRequested(tester, 'hp');
+    });
   });
 }
