@@ -64,11 +64,11 @@ jobs:
               echo Debugging
               echo MELOS_PACKAGE_NAME  # Debugging output
               echo $MELOS_PACKAGE_NAME  # Debugging output
-              echo "MELOS_PACKAGE_NAME: MELOS_PACKAGE_NAME"  # Debugging output
+              
               echo "MELOS_PACKAGE_NAME: $MELOS_PACKAGE_NAME"  # Debugging output
           
               cd $GITHUB_WORKSPACE
-              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -F $MELOS_PACKAGE_NAME -c
+              ./codecov --verbose upload-process --fail-on-error -c -t ${{ secrets.CODECOV_TOKEN }} -F "$MELOS_PACKAGE_NAME"
             fi"
 
 #      - name: 📝 Preparing coverage report
