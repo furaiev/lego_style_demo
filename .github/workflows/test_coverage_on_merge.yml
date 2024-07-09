@@ -43,7 +43,7 @@ jobs:
           echo "CODECOV_PATH=$(pwd)/codecov" >> $GITHUB_ENV
 
       - name: Verify codecov installation
-        run: codecov --version
+        run: ./codecov --version
 
       - name: Get previous commit
         id: prev-commit
