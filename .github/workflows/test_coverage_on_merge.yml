@@ -41,9 +41,9 @@ jobs:
           curl -Os https://cli.codecov.io/latest/linux/codecov
           sudo chmod +x codecov
 
-#      - name: Get previous commit
-#        id: prev-commit
-#        run: echo "PREV_COMMIT=$(git rev-parse HEAD^)" >> $GITHUB_ENV
+      - name: Get previous commit
+        id: prev-commit
+        run: echo "PREV_COMMIT=$(git rev-parse HEAD^)" >> $GITHUB_ENV
 
       - name: 🧪 Collecting coverage for changed packages
         run: |
