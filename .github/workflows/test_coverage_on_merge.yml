@@ -40,9 +40,10 @@ jobs:
           pip install codecov-cli
           curl -Os https://cli.codecov.io/latest/linux/codecov
           sudo chmod +x codecov
+          sudo mv codecov /usr/local/bin
 
       - name: Verify codecov installation
-        run: ./codecov --version
+        run: codecov --version
 
       - name: Get previous commit
         id: prev-commit
@@ -61,7 +62,7 @@ jobs:
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
               cd $MELOS_ROOT_PATH
-              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -F $MELOS_PACKAGE_NAME -c
+              codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -F $MELOS_PACKAGE_NAME -c
             fi"
 
 #      - name: 📝 Preparing coverage report
