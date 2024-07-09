@@ -12,7 +12,7 @@ import './step/navigation_to_universe_is_requested.dart';
 
 void main() {
   group('''Lego List''', () {
-    testWidgets('''Lego world list is shown''', (tester) async {
+    testWidgets('''Lego world list is shown!''', (tester) async {
       await theFlowIsRunningWithConfiguration(tester, 'list');
       await iSeeWidget(tester, ListView);
       await iSeeText(tester, 'Lego Star Wars');
