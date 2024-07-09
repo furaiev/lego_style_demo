@@ -41,7 +41,7 @@ jobs:
 
       - name: 🧪 Collecting coverage for changed packages
         run: |
-          melos exec --diff=$PREV_COMMIT...HEAD -c 1 --fail-fast --dir-exists="test" -- \
+          melos exec --diff=${{ env.PREV_COMMIT }}...HEAD -c 1 --fail-fast --dir-exists="test" -- \
             "if [ ! -f dart_test.yaml ]; then
               flutter pub get
               if grep -q 'flutter:' pubspec.yaml; then
@@ -53,7 +53,7 @@ jobs:
 
       - name: 📝 Preparing coverage report
         run: |
-          melos exec --diff=origin/$PREV_COMMIT...HEAD -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+          melos exec --diff=origin/${{ env.PREV_COMMIT }}...HEAD -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
       - name: 🤷 Check report existence
