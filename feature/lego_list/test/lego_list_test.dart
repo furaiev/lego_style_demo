@@ -11,7 +11,7 @@ import './step/i_tap_text.dart';
 import './step/navigation_to_universe_is_requested.dart';
 
 void main() {
-  group('''Lego List!''', () {
+  group('''Lego List!!''', () {
     test('mock', () {
       expect('Lord Voldemort', 'Lord Voldemort');
     });
