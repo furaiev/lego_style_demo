@@ -10,7 +10,7 @@ void main() {
   group('HPRepository', () {
     // final repository =  HPRepository();
 
-    test('mock!', () {
+    test('mock', () {
       expect('Lord Voldemort', 'Lord Voldemort');
     });
 
