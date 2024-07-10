@@ -64,7 +64,7 @@ jobs:
           
               cd $GITHUB_WORKSPACE
               ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -s MELOS_PACKAGE_PATH/coverage -F MELOS_PACKAGE_NAME
-              coveralls report --base-path=MELOS_PACKAGE_PATH/coverage --job-flag=MELOS_PACKAGE_NAME
+              coveralls report --base-path=MELOS_PACKAGE_PATH --job-flag=MELOS_PACKAGE_NAME
             fi"
 
 #      - name: 📝 Preparing coverage report
