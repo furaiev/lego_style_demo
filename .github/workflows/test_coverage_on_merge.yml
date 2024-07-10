@@ -62,7 +62,7 @@ jobs:
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
           
               cd $GITHUB_WORKSPACE
-              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -f MELOS_PACKAGE_PATH/coverage/lcov.info -F MELOS_PACKAGE_NAME --disable-search
+              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -s MELOS_PACKAGE_PATH/coverage -F MELOS_PACKAGE_NAME --disable-search
             fi"
 
 #      - name: 📝 Preparing coverage report
