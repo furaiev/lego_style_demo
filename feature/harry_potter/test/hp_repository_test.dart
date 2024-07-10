@@ -8,7 +8,7 @@ import 'package:harry_potter/src/flow/harry_potter_flow.dart';
 
 void main() {
   group('HPRepository', () {
-    final repository =  HPRepository();
+    // final repository =  HPRepository();
 
     test('mock', () {
       expect('Lord Voldemort', 'Lord Voldemort');
