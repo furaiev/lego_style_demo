@@ -49,6 +49,10 @@ jobs:
         id: prev-commit
         run: echo "PREV_COMMIT=$(git rev-parse HEAD^)" >> $GITHUB_ENV
 
+      - name: Set up environment variables
+        run: |
+          echo "COVERALLS_CARRYFORWARD_FLAGS=all" >> $GITHUB_ENV
+
       - name: 🧪 Collecting coverage for changed packages
         run: |
           melos exec --diff=${{ env.PREV_COMMIT }}...HEAD -c 1 --fail-fast --dir-exists="test" -- \
@@ -63,7 +67,7 @@ jobs:
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
           
               cd $GITHUB_WORKSPACE
-              coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag="harry_potter"
+              coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag=MELOS_PACKAGE_NAME
             fi"
 
 #      - name: 🧪 Collecting coverage for changed packages
