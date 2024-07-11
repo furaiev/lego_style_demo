@@ -68,6 +68,7 @@ jobs:
           
               cd $GITHUB_WORKSPACE
               coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag=MELOS_PACKAGE_NAME
+              coveralls done --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --carryforward "harry_potter"
             fi"
 
 #      - name: 🧪 Collecting coverage for changed packages
