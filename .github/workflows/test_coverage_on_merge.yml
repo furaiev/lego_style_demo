@@ -63,9 +63,26 @@ jobs:
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
           
               cd $GITHUB_WORKSPACE
-#              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -s MELOS_PACKAGE_PATH/coverage -F MELOS_PACKAGE_NAME
               coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag="harry_potter"
             fi"
+
+#      - name: 🧪 Collecting coverage for changed packages
+#        run: |
+#          melos exec --diff=${{ env.PREV_COMMIT }}...HEAD -c 1 --fail-fast --dir-exists="test" -- \
+#            "if [ ! -f dart_test.yaml ]; then
+#              flutter pub get
+#              if grep -q 'flutter:' pubspec.yaml; then
+#                very_good test --coverage --exclude-tags=golden
+#              else
+#                dart pub global run coverage:test_with_coverage
+#              fi
+#
+#              dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
+#
+#              cd $GITHUB_WORKSPACE
+#              ./codecov --verbose upload-process --fail-on-error -t ${{ secrets.CODECOV_TOKEN }} -s MELOS_PACKAGE_PATH/coverage -F MELOS_PACKAGE_NAME
+#              coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag="harry_potter"
+#            fi"
 
 #      - name: 📝 Preparing coverage report
 #        run: |
