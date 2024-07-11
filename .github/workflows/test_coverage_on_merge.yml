@@ -62,10 +62,11 @@ jobs:
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
           
-              cd $GITHUB_WORKSPACE
-              coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag=MELOS_PACKAGE_NAME
+              
+              coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --job-flag=MELOS_PACKAGE_NAME
               
             fi"
+#          cd $GITHUB_WORKSPACE
 #  coveralls done --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --carryforward all
 #      - name: 🧪 Collecting coverage for changed packages
 #        run: |
