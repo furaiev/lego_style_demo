@@ -49,10 +49,6 @@ jobs:
         id: prev-commit
         run: echo "PREV_COMMIT=$(git rev-parse HEAD^)" >> $GITHUB_ENV
 
-      - name: Set up environment variables
-        run: |
-          echo "COVERALLS_CARRYFORWARD_FLAGS=all" >> $GITHUB_ENV
-
       - name: 🧪 Collecting coverage for changed packages
         run: |
           melos exec --diff=${{ env.PREV_COMMIT }}...HEAD -c 1 --fail-fast --dir-exists="test" -- \
@@ -68,6 +64,7 @@ jobs:
           
               cd $GITHUB_WORKSPACE
               coveralls report --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --base-path=MELOS_PACKAGE_PATH --job-flag=MELOS_PACKAGE_NAME
+              coveralls done --debug --repo-token=${{ secrets.COVERALLS_REPO_TOKEN }} --carryforward "harry_potter"
             fi"
 
 #      - name: 🧪 Collecting coverage for changed packages
