@@ -1,0 +1,72 @@
+name: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types: [ opened, synchronize, ready_for_review ]
+    branches:
+      - main
+
+jobs:
+  test_coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: 🐣 Preparing Environment
+        uses: ./.github/actions/init
+      - name: 📦 Running pub get
+        uses: ./.github/actions/get_dependencies
+        with:
+          command: 'melos pub_get_changes_no_dependents'
+      - name: 🐣 Preparing tools
+        run: |
+          dart pub global activate very_good_cli
+          dart pub global activate coverage
+          dart pub global activate remove_from_coverage
+      - name: 🧪 Collecting coverage for changed packages
+        run: |
+          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --dir-exists="test" -- \
+            "if [ ! -f dart_test.yaml ]; then
+              if grep -q 'flutter:' pubspec.yaml; then
+                very_good test --coverage --exclude-tags=golden
+              else
+                dart pub global run coverage:test_with_coverage
+              fi
+          
+              dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
+            fi"
+      - name: Add changed files
+        shell: bash
+        run: |
+          git add '**/lcov.info'
+          git commit -m "Test coverage files" || true
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.head_ref }}
+      - name: 📝 Preparing coverage report
+        run: |
+          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+            "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
+      - name: 🤷 Check report existence
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: 'coverage_report/lcov.info'
+      - name: Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+      - name: 📊 Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@v3
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          coverage-files: coverage_report/lcov.info
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
