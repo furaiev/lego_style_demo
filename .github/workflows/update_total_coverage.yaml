@@ -38,13 +38,7 @@ jobs:
         uses: hrishikesh-kadam/setup-lcov@v1
 
       - name: 📊 Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v3
-        if: steps.check_files.outputs.files_exists == 'true'
-        with:
-          coverage-files: coverage_report/lcov.info
-          artifact-name: code-coverage-report
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          update-comment: true
+        run: genhtml coverage_report/lcov.info -o coverage_report/html
 
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
