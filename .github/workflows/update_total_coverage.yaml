@@ -16,29 +16,8 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
 
-      - name: Get previous commit SHA before the PR
-        id: get_commit
-        run: |
-          git fetch origin main
-
-          echo "Previous commit SHA: ${{ github.event.before }}"
-
-          commit_before_pr=$(git rev-parse ${{ github.event.before }})
-          commit_message=$(git log -1 --pretty=format:"%s" $commit_before_pr)
-          echo "Last commit message before PR: $commit_message"
-
-          echo "Current commit SHA: ${{ github.sha }}"
-
       - name: 🐣 Preparing Environment
         uses: ./.github/actions/init
-
-      - name: 🔙 Get previous commit
-        id: prev-commit
-        run: |
-          PREV_COMMIT=$(git rev-parse HEAD^)
-          echo "PREV_COMMIT=$PREV_COMMIT" >> $GITHUB_ENV
-          
-      
 
       - name: 📦 Install tools
         run: |
@@ -46,7 +25,7 @@ jobs:
 
       - name: 📝 Preparing coverage report
         run: |
-          melos exec --diff=${{ github.event.before }} -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+          melos exec -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
       - name: 🤷 Check report existence
