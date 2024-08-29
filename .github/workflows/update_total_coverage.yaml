@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🐣 Preparing Environment
-        uses: ./.github/actions/init
-
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
+
+      - name: 🐣 Preparing Environment
+        uses: ./.github/actions/init
 
       - name: 🔙 Get previous commit
         id: prev-commit
