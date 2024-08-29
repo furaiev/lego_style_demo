@@ -39,11 +39,26 @@ jobs:
         with:
           files: 'coverage_report/lcov.info'
 
-      - name: Setup LCOV
-        uses: hrishikesh-kadam/setup-lcov@v1
+      - name: Install prerequisites
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autotools-dev autoconf automake make gcc perl
+          sudo apt-get install -y libcapture-tiny-perl libdatetime-perl
+
+      - name: Install lcov from source
+        run: |
+          sudo apt-get remove -y lcov
+          git clone https://github.com/linux-test-project/lcov.git
+          cd lcov
+          sudo make install
+
+      - name: Validate lcov and genhtml version
+        run: |
+          lcov --version
+          genhtml --version
 
       - name: 📊 Report code coverage
-        run: genhtml coverage_report/lcov.info -o coverage_report/html
+        run: genhtml coverage_report/lcov.info -o coverage_report/html --hierarchical
 
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
