@@ -1,4 +1,4 @@
-SF:lib/src/flow/lego_list_flow.dart
+SF:lib/src/flow/ll_flow.dart
 DA:10,1
 DA:12,1
 DA:13,1
@@ -27,7 +27,7 @@ DA:4,1
 LF:1
 LH:1
 end_of_record
-SF:lib/src/widget/bloc/lego_list_cubit.dart
+SF:lib/src/widget/bloc/ll_cubit.dart
 DA:8,1
 DA:12,1
 DA:13,1
@@ -45,7 +45,7 @@ DA:10,0
 LF:3
 LH:1
 end_of_record
-SF:lib/src/widget/lego_list_page.dart
+SF:lib/src/widget/ll_page.dart
 DA:8,1
 DA:10,1
 DA:11,1
@@ -96,7 +96,7 @@ DA:124,0
 LF:13
 LH:11
 end_of_record
-SF:lib/src/widget/bloc/lego_list_state.dart
+SF:lib/src/widget/bloc/ll_state.dart
 DA:5,1
 DA:13,0
 DA:14,0
