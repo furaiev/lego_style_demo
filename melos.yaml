@@ -1,7 +1,6 @@
 name: lego
 
 packages:
-  - app/**
   - feature/**
 
 x-ignores:
