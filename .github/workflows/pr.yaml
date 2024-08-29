@@ -41,29 +41,29 @@ jobs:
               fi
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
+            
+              COVERAGE_FILE='coverage/lcov.info'
+              TEMP_FILE=$(mktemp)
+              PROJECT_ROOT=$(pwd)
+
+              echo 'Contents of $COVERAGE_FILE before changes:'
+              head -n 10 '$COVERAGE_FILE'
+
+               if [ ! -f '$COVERAGE_FILE' ]; then
+                echo 'Error: file $COVERAGE_FILE not found!'
+                exit 1
+               fi
+
+               sed 's|SF:|SF:$PROJECT_ROOT/|g' '$COVERAGE_FILE' > '$TEMP_FILE'
+
+               mv '$TEMP_FILE' '$COVERAGE_FILE'
+
+
+                echo 'Contents of $COVERAGE_FILE after changes:'
+                head -n 10 '$COVERAGE_FILE'
+
+               echo 'Success for $COVERAGE_FILE.'
             fi"
-#              COVERAGE_FILE='coverage/lcov.info'
-#              TEMP_FILE=$(mktemp)
-#              PROJECT_ROOT=$(pwd)
-#
-#              echo 'Contents of $COVERAGE_FILE before changes:'
-#              head -n 10 '$COVERAGE_FILE'
-#
-#               if [ ! -f '$COVERAGE_FILE' ]; then
-#                echo 'Error: file $COVERAGE_FILE not found!'
-#                exit 1
-#               fi
-#
-#               sed 's|SF:|SF:$PROJECT_ROOT/|g' '$COVERAGE_FILE' > '$TEMP_FILE'
-#
-#               mv '$TEMP_FILE' '$COVERAGE_FILE'
-#
-#
-#                echo 'Contents of $COVERAGE_FILE after changes:'
-#                head -n 10 '$COVERAGE_FILE'
-#
-#               echo 'Success for $COVERAGE_FILE.'
-#            fi"
       - name: Configure Git
         run: |
           git config --global user.email "mobile@tide.co"

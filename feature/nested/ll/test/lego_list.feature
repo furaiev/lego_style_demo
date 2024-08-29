@@ -1,4 +1,3 @@
-
 Feature: Lego List
     In order to know more about Lego worlds
     As a user
