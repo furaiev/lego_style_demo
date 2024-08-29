@@ -43,6 +43,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y autotools-dev autoconf automake make gcc perl
+          sudo apt-get install -y libcapture-tiny-perl
 
       - name: Install lcov from source
         run: |
