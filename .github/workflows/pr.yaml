@@ -41,7 +41,7 @@ jobs:
               fi
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
-          
+            "
 #              COVERAGE_FILE='coverage/lcov.info'
 #              TEMP_FILE=$(mktemp)
 #              PROJECT_ROOT=$(pwd)
@@ -63,7 +63,7 @@ jobs:
 #                head -n 10 '$COVERAGE_FILE'
 #
 #               echo 'Success for $COVERAGE_FILE.'
-            fi"
+#            fi"
       - name: Configure Git
         run: |
           git config --global user.email "mobile@tide.co"
