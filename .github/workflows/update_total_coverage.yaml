@@ -1,0 +1,66 @@
+name: update_total_coverage
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐣 Preparing Environment
+        uses: ./.github/actions/init
+
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: 📦 Install tools
+        run: |
+          dart pub global activate coverage
+
+      - name: 📝 Preparing coverage report
+        run: |
+          melos exec -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+            "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
+
+      - name: 🤷 Check report existence
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: 'coverage_report/lcov.info'
+
+      - name: Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+
+      - name: 📊 Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@v3
+        if: steps.check_files.outputs.files_exists == 'true'
+        with:
+          coverage-files: coverage_report/lcov.info
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+
+      - name: Upload artifact for deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: coverage_report/html
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
