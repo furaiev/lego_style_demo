@@ -19,8 +19,14 @@ jobs:
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.before }}
+          ref: ${{ github.sha }}
           fetch-depth: 0
+
+      - name: 🔙 Get previous commit
+        id: prev-commit
+        run: |
+          PREV_COMMIT=$(git rev-parse HEAD^)
+          echo "PREV_COMMIT=$PREV_COMMIT" >> $GITHUB_ENV
 
       - name: 📦 Install tools
         run: |
@@ -29,14 +35,12 @@ jobs:
       - name: 📝 Compute Git Diff
         id: compute_diff
         run: |
-          GIT_DIFF=$(git diff ${{ github.event.before }} ${{ github.sha }})
-          echo "GIT_DIFF<<EOF" >> $GITHUB_ENV
-          echo "$GIT_DIFF" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          LAST_PR_COMMIT_HASH=$(git log --merges -n 1 --format=%H)
+          echo "LAST_PR_COMMIT_HASH=$LAST_PR_COMMIT_HASH" >> $GITHUB_ENV
 
       - name: 📝 Preparing coverage report
         run: |
-          melos exec -c 1 --fail-fast --file-exists="coverage/lcov.info" --diff={$GIT_DIFF} -- \
+          melos exec --diff=${{ env.LAST_PR_COMMIT_HASH }} -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
       - name: 🤷 Check report existence
