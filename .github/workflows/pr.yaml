@@ -42,10 +42,10 @@ jobs:
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
             fi"
-      - name: Get updated files
-        uses: tj-actions/changed-files@v45
-        with:
-          since_last_remote_commit: true
+      - name: Configure Git
+        run: |
+          git config --global user.email "mobile@tide.co"
+          git config --global user.name "GH workflow"
       - name: Add changed files
         shell: bash
         run: |
