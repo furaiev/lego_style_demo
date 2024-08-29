@@ -43,7 +43,7 @@ jobs:
         uses: hrishikesh-kadam/setup-lcov@v1
 
       - name: 📊 Report code coverage
-        run: genhtml coverage_report/lcov.info -o coverage_report/html
+        run: genhtml coverage_report/lcov.info -o coverage_report/html --hierarchical
 
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
