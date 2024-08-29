@@ -35,21 +35,27 @@ jobs:
           melos exec --diff=origin/main...HEAD -c 1 --fail-fast --dir-exists="test" -- \
             "if [ ! -f dart_test.yaml ]; then
               if grep -q 'flutter:' pubspec.yaml; then
+                echo 'Running very_good test with coverage...'
                 very_good test --coverage --exclude-tags=golden
               else
+                echo 'Running dart pub global run coverage:test_with_coverage...'
                 dart pub global run coverage:test_with_coverage
               fi
 
+              echo 'Removing unnecessary files from coverage report...'
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
 
+              # Check if the coverage directory exists
+              echo 'Checking if coverage directory exists...'
+              ls -l coverage
+
+              # Define COVERAGE_FILE variable
               COVERAGE_FILE=\"coverage/lcov.info\"
               TEMP_FILE=$(mktemp)
               PROJECT_ROOT=$(pwd)
 
               # Debugging output: Check if coverage file exists after tests
               echo \"Checking if ${COVERAGE_FILE} exists...\"
-              ls -l \"${COVERAGE_FILE}\"
-
               if [ ! -f \"${COVERAGE_FILE}\" ]; then
                 echo \"Error: file ${COVERAGE_FILE} not found!\"
                 exit 1
