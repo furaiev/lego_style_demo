@@ -19,16 +19,24 @@ jobs:
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.before }}
           fetch-depth: 0
 
       - name: 📦 Install tools
         run: |
           dart pub global activate coverage
 
+      - name: 📝 Compute Git Diff
+        id: compute_diff
+        run: |
+          GIT_DIFF=$(git diff ${{ github.event.before }} ${{ github.sha }})
+          echo "GIT_DIFF<<EOF" >> $GITHUB_ENV
+          echo "$GIT_DIFF" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: 📝 Preparing coverage report
         run: |
-          melos exec -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+          melos exec -c 1 --fail-fast --file-exists="coverage/lcov.info" --diff=GIT_DIFF -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
       - name: 🤷 Check report existence
