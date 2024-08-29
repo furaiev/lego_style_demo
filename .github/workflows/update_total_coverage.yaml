@@ -29,15 +29,9 @@ jobs:
         run: |
           dart pub global activate coverage
 
-      - name: 📝 Compute Git Diff
-        id: compute_diff
-        run: |
-          LAST_PR_COMMIT_HASH=$(git log --merges -n 1 --format=%H)
-          echo "LAST_PR_COMMIT_HASH=$LAST_PR_COMMIT_HASH" >> $GITHUB_ENV
-
       - name: 📝 Preparing coverage report
         run: |
-          melos exec --diff=${{ env.LAST_PR_COMMIT_HASH }} -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
+          melos exec --diff=${{ github.event.before }} -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
       - name: 🤷 Check report existence
