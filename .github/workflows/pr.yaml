@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📚 Git Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
@@ -42,6 +42,10 @@ jobs:
           
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
             fi"
+      - name: Get updated files
+        uses: tj-actions/changed-files@v45
+        with:
+          since_last_remote_commit: true
       - name: Add changed files
         shell: bash
         run: |
