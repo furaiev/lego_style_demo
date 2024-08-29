@@ -39,20 +39,24 @@ jobs:
               else
                 dart pub global run coverage:test_with_coverage
               fi
-          
+
               dart pub global run remove_from_coverage:remove_from_coverage -f coverage/lcov.info -r '.g.dart$' -r '.gr.dart$' -r '.freezed.dart$' -r '.i69n.dart$' -r 'di_initializer.config.dart'
-          
+
               COVERAGE_FILE=\"coverage/lcov.info\"
               TEMP_FILE=$(mktemp)
               PROJECT_ROOT=$(pwd)
 
-              echo \"Contents of ${COVERAGE_FILE} before changes:\"
-              head -n 10 \"${COVERAGE_FILE}\"
+              # Debugging output: Check if coverage file exists after tests
+              echo \"Checking if ${COVERAGE_FILE} exists...\"
+              ls -l \"${COVERAGE_FILE}\"
 
               if [ ! -f \"${COVERAGE_FILE}\" ]; then
                 echo \"Error: file ${COVERAGE_FILE} not found!\"
                 exit 1
               fi
+
+              echo \"Contents of ${COVERAGE_FILE} before changes:\"
+              head -n 10 \"${COVERAGE_FILE}\"
 
               sed \"s|SF:|SF:${PROJECT_ROOT}/|g\" \"${COVERAGE_FILE}\" > \"${TEMP_FILE}\"
 
