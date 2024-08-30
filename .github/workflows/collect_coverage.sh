@@ -21,7 +21,7 @@ if [ ! -f dart_test.yaml ]; then
   TEMP_FILE=$(mktemp)
   ROOT=$(pwd)
   GIT_ROOT=$(git rev-parse --show-toplevel)
-  PROJECT_ROOT=$(echo "$CURRENT_DIR" | sed "s|$GIT_ROOT||")
+  PROJECT_ROOT=$(realpath --relative-to="$GIT_ROOT" "$ROOT")
 
   # Debugging output: Check if coverage file exists after tests
   echo "Checking if ${COVERAGE_FILE} exists..."
