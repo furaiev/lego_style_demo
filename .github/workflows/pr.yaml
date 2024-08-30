@@ -32,7 +32,7 @@ jobs:
           dart pub global activate remove_from_coverage
       - name: 🧪 Collecting coverage for changed packages
         run: |
-          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --dir-exists="test" -- ./collect_coverage.sh
+          melos exec --diff=origin/main...HEAD -c 1 --fail-fast --dir-exists="test" -- MELOS_ROOT_PATH/github/workflows/collect_coverage.sh
 
       - name: Configure Git
         run: |
