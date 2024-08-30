@@ -58,7 +58,7 @@ jobs:
           genhtml --version
 
       - name: 📊 Report code coverage
-        run: genhtml coverage_report/lcov.info -o coverage_report/html --hierarchical
+        run: genhtml coverage_report/lcov.info -o coverage_report/html --prefix "/Users/runner/work/lego_style_demo/lego_style_demo" --hierarchical
 
       - name: Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
