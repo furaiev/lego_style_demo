@@ -24,5 +24,5 @@ if [ ! -f dart_test.yaml ]; then
   sed "s|SF:|SF:${PROJECT_ROOT}/|g" "${COVERAGE_FILE}" > "${TEMP_FILE}"
   mv "${TEMP_FILE}" "${COVERAGE_FILE}"
 
-  echo "Success for ${COVERAGE_FILE}."
+  echo "Success for ${PROJECT_ROOT}."
 fi
