@@ -30,6 +30,10 @@ jobs:
           dart pub global activate very_good_cli
           dart pub global activate coverage
           dart pub global activate remove_from_coverage
+
+      - name: Make collect_coverage.sh executable
+        run: chmod +x MELOS_ROOT_PATH/.github/workflows/collect_coverage.sh
+
       - name: 🧪 Collecting coverage for changed packages
         run: |
           melos exec --diff=origin/main...HEAD -c 1 --fail-fast --dir-exists="test" -- MELOS_ROOT_PATH/.github/workflows/collect_coverage.sh
