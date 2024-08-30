@@ -39,6 +39,12 @@ jobs:
         with:
           files: 'coverage_report/lcov.info'
 
+      - name: Upload coverage report artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: $MELOS_ROOT_PATH/coverage_report/lcov.info
+
       - name: Install prerequisites
         run: |
           sudo apt-get update
