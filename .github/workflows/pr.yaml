@@ -54,13 +54,13 @@ jobs:
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
       - name: 🤷 Check report existence
         id: check_files
-        uses: andstor/file-existence-action@v1
+        uses: andstor/file-existence-action@v3
         with:
           files: 'coverage_report/lcov.info'
       - name: Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
       - name: 📊 Report code coverage
-        uses: zgosalvez/github-actions-report-lcov@v3
+        uses: zgosalvez/github-actions-report-lcov@v4
         if: steps.check_files.outputs.files_exists == 'true'
         with:
           coverage-files: coverage_report/lcov.info
