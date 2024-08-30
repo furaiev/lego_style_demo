@@ -32,7 +32,7 @@ if [ ! -f dart_test.yaml ]; then
   head -n 10 "${COVERAGE_FILE}"
 
   # Update the file paths in the coverage file
-  sed "s|SF:|SF:${PROJECT_ROOT}/|g" "${COVERAGE_FILE}" > "${TEMP_FILE}"
+  sed "s|SF:${PROJECT_ROOT}/|SF:|g" "${COVERAGE_FILE}" > "${TEMP_FILE}"
   mv "${TEMP_FILE}" "${COVERAGE_FILE}"
 
   echo "Contents of ${COVERAGE_FILE} after changes:"
