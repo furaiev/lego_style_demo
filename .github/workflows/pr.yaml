@@ -23,8 +23,8 @@ jobs:
         uses: ./.github/actions/init
       - name: 📦 Running pub get
         uses: ./.github/actions/get_dependencies
-#        with:
-#          command: 'melos pub_get_changes_no_dependents'
+        with:
+          command: 'melos pub_get_changes_no_dependents'
       - name: 🐣 Preparing tools
         run: |
           dart pub global activate very_good_cli
