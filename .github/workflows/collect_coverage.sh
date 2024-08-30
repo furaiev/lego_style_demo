@@ -22,7 +22,7 @@ if [ ! -f dart_test.yaml ]; then
   ROOT=$(pwd)
   GIT_ROOT=$(git rev-parse --show-toplevel)
   PROJECT_ROOT=$(echo "$ROOT" | sed "s|$GIT_ROOT||")
-  PROJECT_ROOT="${PROJECT_ROOT%/}"
+  PROJECT_ROOT="${PROJECT_ROOT#/}"
 
   # Debugging output: Check if coverage file exists after tests
   echo "Checking if ${COVERAGE_FILE} exists..."
