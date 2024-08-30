@@ -10,7 +10,7 @@ if [ -d "coverage" ]; then
     mkdir $reportDirectory
   fi
   echo "Combining coverage files into $reportDirectory/lcov.info"
-  sed "s/^SF:lib/SF:$escapedPath\/lib/g" coverage/lcov.info >> "$reportDirectory/lcov.info"
+  sed -e "s/^SF:lib/SF:$escapedPath\/lib/g" -e '$a\' coverage/lcov.info >> "$reportDirectory/lcov.info"
   rm -rf "coverage"
 else
   echo "Coverage directory does not exist"
