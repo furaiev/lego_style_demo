@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: coverage-report
-          path: $MELOS_ROOT_PATH/coverage_report/lcov.info
+          path: coverage_report/lcov.info
 
       - name: Install prerequisites
         run: |
