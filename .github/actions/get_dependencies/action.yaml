@@ -1,13 +1,19 @@
 name: 'Get dependencies'
 description: 'Workflow to get dependencies'
 
+inputs:
+  command:
+    description: 'Command to run'
+    required: false
+    default: 'melos pub_get_changes'
+
 runs:
   using: 'composite'
   steps:
-    - name: Running pub get
-      uses: nick-fields/retry@v2
+    - name: Running pub get with retry
+      uses: nick-fields/retry@v3
       with:
         timeout_minutes: 60
         max_attempts: 2
         retry_on: error
-        command: ${{ inputs.command || 'melos pub_get_changes' }}
+        command: ${{ inputs.command }}

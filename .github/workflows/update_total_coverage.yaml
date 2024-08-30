@@ -13,7 +13,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: 📚 Git Checkout
         uses: actions/checkout@v4
@@ -24,49 +23,32 @@ jobs:
       - name: 🐣 Preparing Environment
         uses: ./.github/actions/init
 
-      - name: 📦 Install tools
-        run: |
-          dart pub global activate coverage
+#      - name: 📦 Install tools
+#        run: |
+#          dart pub global activate coverage
 
       - name: 📝 Preparing coverage report
         run: |
           melos exec -c 1 --fail-fast --file-exists="coverage/lcov.info" -- \
             "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
 
-      - name: 🤷 Check report existence
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: 'coverage_report/lcov.info'
-
-      - name: Upload coverage report artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-report
-          path: coverage_report/lcov.info
-
-      - name: Install prerequisites
+      - name: 🚧 Install prerequisites
         run: |
           sudo apt-get update
           sudo apt-get install -y autotools-dev autoconf automake make gcc perl
           sudo apt-get install -y libcapture-tiny-perl libdatetime-perl
 
-      - name: Install lcov from source
+      - name: 🔧 Install lcov from source
         run: |
           sudo apt-get remove -y lcov
           git clone https://github.com/linux-test-project/lcov.git
           cd lcov
           sudo make install
 
-      - name: Validate lcov and genhtml version
-        run: |
-          lcov --version
-          genhtml --version
-
-      - name: 📊 Report code coverage
+      - name: 📊 Generate coverage report
         run: genhtml coverage_report/lcov.info -o coverage_report/html --hierarchical
 
-      - name: Upload artifact for deployment
+      - name: 🚀 Upload artifact for deployment
         uses: actions/upload-pages-artifact@v3
         with:
           path: coverage_report/html
@@ -78,6 +60,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
+      - name: 🌐 Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
