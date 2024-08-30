@@ -23,19 +23,19 @@ void main() {
       await iSeeText(tester, 'Lego Harry Potter');
       await iSeeText(tester, 'Lego DC');
     });
-    // testWidgets('''Lego world grid is shown''', (tester) async {
-    //   await theFlowIsRunningWithConfiguration(tester, 'grid');
-    //   await iSeeWidget(tester, GridView);
-    //   await iSeeText(tester, 'Lego Star Wars');
-    //   await iSeeText(tester, 'Lego Marvel');
-    //   await iSeeText(tester, 'Lego Harry Potter');
-    //   await iSeeText(tester, 'Lego DC');
-    // });
-    //
-    // testWidgets('''I can see world's details''', (tester) async {
-    //   await theFlowIsRunningWithConfiguration(tester, 'list');
-    //   await iTapText(tester, 'Lego Harry Potter');
-    //   await navigationToUniverseIsRequested(tester, 'hp');
-    // });
+    testWidgets('''Lego world grid is shown''', (tester) async {
+      await theFlowIsRunningWithConfiguration(tester, 'grid');
+      await iSeeWidget(tester, GridView);
+      await iSeeText(tester, 'Lego Star Wars');
+      await iSeeText(tester, 'Lego Marvel');
+      await iSeeText(tester, 'Lego Harry Potter');
+      await iSeeText(tester, 'Lego DC');
+    });
+
+    testWidgets('''I can see world's details''', (tester) async {
+      await theFlowIsRunningWithConfiguration(tester, 'list');
+      await iTapText(tester, 'Lego Harry Potter');
+      await navigationToUniverseIsRequested(tester, 'hp');
+    });
   });
 }
